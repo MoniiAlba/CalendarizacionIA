@@ -281,8 +281,12 @@ public class MenuRels extends javax.swing.JFrame {
             int sig = listaM.indexOf(listaAct.elementAt(i));
             for(int j = 0; j < tam; j++){
                 if(i != j){
-                    int nuevo = listaM.indexOf(listaAct.elementAt(j));
+                    int nuevo = listaM.indexOf(listaAct.elementAt(j));                    
+                    if(matAdy [sig][nuevo] == 0){
+                        matAdy [sig][sig]++;
+                    }
                     matAdy [sig][nuevo] = 1;
+                    
                 }
             }
         }
