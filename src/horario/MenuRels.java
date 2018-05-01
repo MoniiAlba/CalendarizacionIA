@@ -17,7 +17,7 @@ public class MenuRels extends javax.swing.JFrame {
     private DefaultListModel listaAct;
     private DefaultListModel listaRel;
     int [][] matAdy;
-    String [] mats;
+ //   String [] mats;
     
     /**
      * Creates new form MenuRels
@@ -30,8 +30,8 @@ public class MenuRels extends javax.swing.JFrame {
         initComponents();
         listaM = l;
         matAdy = new int [l.size()][l.size()];
-        mats = new String [l.size()];
-        añadeMaterias();
+//        mats = new String [l.size()];
+//        añadeMaterias();
         listaAct = new DefaultListModel();
         listaRel = new DefaultListModel();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("horario.png")));
@@ -139,6 +139,11 @@ public class MenuRels extends javax.swing.JFrame {
         jLabel4.setText("Relación");
 
         btnCont.setText("Continuar");
+        btnCont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContActionPerformed(evt);
+            }
+        });
 
         labelAdver.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         labelAdver.setText("Las relaciones deben ser entre 2 o más materias");
@@ -252,23 +257,23 @@ public class MenuRels extends javax.swing.JFrame {
         btnQuitaM.setEnabled(false);
     }//GEN-LAST:event_btnQuitaMActionPerformed
 
-    public void añadeMaterias(){
-        for (int i = 0; i < listaM.size(); i++) {
-            mats[i] = listaM.elementAt(i).toString();
-        }
-        imprimeMats();
-    }
+//    public void añadeMaterias(){
+//        for (int i = 0; i < listaM.size(); i++) {
+//            mats[i] = listaM.elementAt(i).toString();
+//        }
+//        imprimeMats();
+//    }
     
     public void imprimeMats(){
-        for(int i = 0; i < mats.length; i++){
-            System.out.print(mats[i]+" ");
+        for(int i = 0; i < listaM.size(); i++){
+            System.out.print(listaM.getElementAt(i).toString()+" ");
         }
         System.out.println();
     }
     
     public void imprimeMatRels(){
-        for(int i = 0; i < mats.length; i++){
-            for(int j = 0; j < mats.length; j++){
+        for(int i = 0; i < listaM.size(); i++){
+            for(int j = 0; j < listaM.size(); j++){
                 System.out.print(matAdy[i][j]+" ");
             }
             System.out.println();
@@ -295,6 +300,7 @@ public class MenuRels extends javax.swing.JFrame {
         String rel = "";
         int tam = listaAct.size();
         if(tam < 2){
+            labelAdver.setText("Las relaciones deben de ser entre 2 materias o más.");
             labelAdver.setVisible(true);
         }else{
             insertaRel(listaAct, tam);
@@ -332,6 +338,10 @@ public class MenuRels extends javax.swing.JFrame {
             jRelaciones.setVisible(false);
         }
     }//GEN-LAST:event_btnQuitaRelActionPerformed
+
+    private void btnContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnContActionPerformed
 
     /**
      * @param args the command line arguments
