@@ -283,10 +283,10 @@ public class MenuRels extends javax.swing.JFrame {
     
     public void insertaRel(DefaultListModel l, int tam){
         for(int i = 0; i < tam; i ++){
-            int sig = listaM.indexOf(listaAct.elementAt(i));
+            int sig = listaM.indexOf(l.elementAt(i));
             for(int j = 0; j < tam; j++){
                 if(i != j){
-                    int nuevo = listaM.indexOf(listaAct.elementAt(j));                    
+                    int nuevo = listaM.indexOf(l.elementAt(j));                    
                     if(matAdy [sig][nuevo] == 0){
                         matAdy [sig][sig]++;
                     }

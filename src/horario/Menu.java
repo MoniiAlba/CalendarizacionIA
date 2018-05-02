@@ -212,20 +212,33 @@ public class Menu extends javax.swing.JFrame {
     private void btIngresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btIngresaActionPerformed
         if(cont <= tot){
             String nom = nomMat.getText();
-            lista.addElement(nom);
-            nomMat.setText("");
-            jListo.setText("Materia agregada");
-            jListo.setVisible(true);
-            cont ++;
+            if(!nomMat.getText().isEmpty()){
+                if(lista.contains(nom)){
+                    jListo.setText("Esta materia ya existe");
+                    jListo.setVisible(true);
+                }else{
+                    lista.addElement(nom);
+                    nomMat.setText("");
+                    jListo.setText("Materia agregada");
+                    jListo.setVisible(true);
+                    cont ++;
+                    jListaMaterias.setModel(lista);
+                    jListaMaterias.setVisible(true);
+                    btnEliminaTodas.setEnabled(true);
+                    btnEliminaMat.setEnabled(false);
+                }
+                
+            }else{                
+                jListo.setText("Agregue nombre de materia");
+                jListo.setVisible(true);
+            }
+            
             
         }else{
             jListo.setVisible(true);
             jListo.setText("Número de materias excedido");
         }
-        jListaMaterias.setModel(lista);
-        jListaMaterias.setVisible(true);
-        btnEliminaTodas.setEnabled(true);
-        btnEliminaMat.setEnabled(false);
+        
     }//GEN-LAST:event_btIngresaActionPerformed
 
     private void jNumsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jNumsItemStateChanged
