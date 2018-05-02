@@ -110,7 +110,7 @@ public class ResolucionEnumTest {
         return res;
     }
     @Test
-    public void resuelvePrueba(){
+    public void resuelvePrueba1(){
         int[][] mat = {{2, 1, 1, 0},
                        {1, 1, 0, 0},
                        {1, 0, 2, 1},
@@ -121,7 +121,22 @@ public class ResolucionEnumTest {
         renum = new ResolucionEnum(mat, numSalones);
         renum.resuelve();
         //renum.imprimeArr(renum.asignados);
-        assertTrue("Resuelve caso prueba", verificaSol(renum, sol));
+        assertTrue("Resuelve caso prueba1", verificaSol(renum, sol));
+    }
+    
+    @Test
+    public void resuelvePrueba2(){
+        int[][] mat = {{2, 1, 1, 0},
+                       {1, 1, 0, 0},
+                       {1, 0, 2, 1},
+                       {0, 0, 1, 1}};
+        int numSalones = 2;
+        int[] sol = {2, 0, 0, 1};
+        int[] restricciones = {2, 0, 0, 0};
+        renum = new ResolucionEnum(mat, numSalones, restricciones);
+        renum.resuelve();
+        //renum.imprimeArr(renum.asignados);
+        assertTrue("Resuelve caso prueba2", verificaSol(renum, sol));
     }
     
 }

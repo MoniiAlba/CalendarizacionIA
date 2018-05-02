@@ -23,6 +23,7 @@ public class ResolucionEnum {
     }
     public ResolucionEnum(int[][] matAdy){
         this.matAdy = matAdy;
+        restricciones = new int[matAdy.length];
     }
 
     public ResolucionEnum(int[][] matAdy, int numSalones) {
@@ -32,7 +33,20 @@ public class ResolucionEnum {
         matP = new int[tam][tam];
         colores = new int[tam];
         asignados = new int [tam];
+        restricciones = new int[tam];
     }
+
+    public ResolucionEnum(int[][] matAdy, int numSalones, int[] restricciones) {
+        this.matAdy = matAdy;
+        this.numSalones = numSalones;
+        this.restricciones = restricciones;
+        int tam = matAdy.length;
+        matP = new int[tam][tam];
+        colores = new int[tam];
+        asignados = new int [tam];
+    }
+    
+    
     
     public void imprimeMatriz(int[][] m){
         for(int i = 0; i < m.length; i++){
@@ -73,7 +87,8 @@ public class ResolucionEnum {
         boolean terminado = false;
         
         while( i < tam && !terminado){
-            if( matP[idNodo][i] == 0 && colores[i] < numSalones){
+            if( matP[idNodo][i] == 0 && colores[i] < numSalones
+                    && i >= restricciones[idNodo]){
                 asignados[idNodo] = i;
                 colores[i]++;
                 terminado = true;
