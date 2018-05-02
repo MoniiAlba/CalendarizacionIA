@@ -5,8 +5,11 @@
  */
 package horario;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Integer.parseInt;
+import javax.swing.DefaultListModel;
 import javax.swing.JToggleButton;
 
 /**
@@ -15,12 +18,24 @@ import javax.swing.JToggleButton;
  */
 public class Restricciones extends javax.swing.JFrame {
 
+    public DefaultListModel listaM;
+    public DefaultListModel listaRel;
+    public int numS = 2;
+    public DefaultListModel restH = new DefaultListModel();
+    public DefaultListModel restP = new DefaultListModel();
+    public int [][] matAdy;
     /**
      * Creates new form Restricciones
      */
-    public Restricciones() {
+    public Restricciones(DefaultListModel lmat, int [][] m, DefaultListModel lRel) {
         initComponents();
         añadeClick();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("horario.png")));
+        listaM = lmat;
+        agregaMatCombos();
+        ocultaCosas();
+        matAdy = m;
+        listaRel = lRel;
     }
 
     /**
@@ -49,9 +64,13 @@ public class Restricciones extends javax.swing.JFrame {
         btnEliminaTodas1 = new javax.swing.JButton();
         restricc = new javax.swing.JToggleButton();
         materias2 = new javax.swing.JComboBox<>();
-        msterias3 = new javax.swing.JComboBox<>();
+        materias3 = new javax.swing.JComboBox<>();
         btnElimina2 = new javax.swing.JButton();
         btnEliminaT2 = new javax.swing.JButton();
+        restricc2 = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        btnAgrega1 = new javax.swing.JButton();
+        btnAgrega2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +82,11 @@ public class Restricciones extends javax.swing.JFrame {
 
         numSalones.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         numSalones.setText("2");
+        numSalones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numSalonesActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 14)); // NOI18N
         jLabel3.setText("Restricciones de horario");
@@ -70,6 +94,11 @@ public class Restricciones extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel4.setText(">=");
 
+        listaRestHor.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaRestHorValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(listaRestHor);
 
         jLabel5.setText("Mismo profesor");
@@ -79,8 +108,18 @@ public class Restricciones extends javax.swing.JFrame {
         jLabel6.setText("con");
 
         btnElimina1.setText("Elimina");
+        btnElimina1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimina1ActionPerformed(evt);
+            }
+        });
 
-        btnEliminaTodas1.setText("Elimins todas");
+        btnEliminaTodas1.setText("Elimina todas");
+        btnEliminaTodas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminaTodas1ActionPerformed(evt);
+            }
+        });
 
         restricc.setText("Con restricciones");
         restricc.addActionListener(new java.awt.event.ActionListener() {
@@ -92,6 +131,29 @@ public class Restricciones extends javax.swing.JFrame {
         btnElimina2.setText("Elimina");
 
         btnEliminaT2.setText("Elimina todas");
+
+        restricc2.setText("Con restricciones");
+        restricc2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restricc2ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Calcular");
+
+        btnAgrega1.setText("Agregar");
+        btnAgrega1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgrega1ActionPerformed(evt);
+            }
+        });
+
+        btnAgrega2.setText("Agregar");
+        btnAgrega2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgrega2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,55 +168,53 @@ public class Restricciones extends javax.swing.JFrame {
                         .addComponent(numSalones, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(22, 22, 22)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(materias1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(37, 37, 37)
-                                                        .addComponent(jLabel4)
-                                                        .addGap(31, 31, 31)
-                                                        .addComponent(numSal)
-                                                        .addGap(43, 43, 43))))
-                                            .addComponent(jLabel5))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addGap(64, 64, 64)
-                                                .addComponent(jLabel6))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addGap(16, 16, 16)
-                                                .addComponent(materias2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(msterias3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(btnEliminaTodas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnElimina1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnEliminaT2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnElimina2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(restricc)
-                                .addGap(3, 3, 3)))
-                        .addGap(52, 52, 52))
+                        .addComponent(jLabel1)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(materias1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel4)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(numSal)
+                                        .addGap(43, 43, 43))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(55, 55, 55))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(materias3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(materias2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnAgrega2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5)
                             .addComponent(jLabel3))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addComponent(jButton1)
+                                .addGap(53, 53, 53))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(restricc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnElimina1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnEliminaTodas1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(restricc2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnElimina2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnAgrega1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(btnEliminaT2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(67, 67, 67))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,64 +225,193 @@ public class Restricciones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(numSalones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(restricc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(numSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(materias1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(30, 30, 30))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(restricc)
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgrega1)
+                            .addComponent(jLabel4)
+                            .addComponent(numSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(materias1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
                         .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(materias2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(materias3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(msterias3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(71, 71, 71))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnAgrega2)))
+                        .addGap(38, 38, 38))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnElimina1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminaTodas1)
-                        .addGap(84, 84, 84)
+                        .addGap(28, 28, 28)
+                        .addComponent(restricc2)
+                        .addGap(38, 38, 38)
                         .addComponent(btnElimina2)
-                        .addGap(35, 35, 35)
+                        .addGap(18, 18, 18)
                         .addComponent(btnEliminaT2)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(16, 16, 16))))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(518, 567));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void restriccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restriccActionPerformed
-        restricc.setText("Sin restricciones");
-        System.out.println();
+        if(restricc.isSelected()){
+            restricc.setText("Sin restricciones");
+            materias1.setEnabled(false);
+            numSal.setEnabled(false);
+            listaRestHor.setVisible(false);
+            btnElimina1.setEnabled(false);
+            btnEliminaTodas1.setEnabled(false);
+        }else{
+            restricc.setText("Con restricciones");
+            materias1.setEnabled(true);
+            numSal.setEnabled(true);
+            listaRestHor.setVisible(true);
+            btnEliminaTodas1.setEnabled(true);
+        }
     }//GEN-LAST:event_restriccActionPerformed
 
+    private void restricc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restricc2ActionPerformed
+        if(restricc2.isSelected()){
+            restricc2.setText("Sin restricciones");
+            materias2.setEnabled(false);
+            materias3.setEnabled(false);
+            listaRestProf.setVisible(false);
+            btnElimina2.setEnabled(false);
+            btnEliminaT2.setEnabled(false);
+        }else{
+            restricc2.setText("Con restricciones");
+            materias2.setEnabled(true);
+            materias3.setEnabled(true);
+            listaRestProf.setVisible(true);
+            btnEliminaT2.setEnabled(true);
+        }
+    }//GEN-LAST:event_restricc2ActionPerformed
+
+    private void numSalonesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numSalonesActionPerformed
+        numS = parseInt(numSalones.getText());
+    }//GEN-LAST:event_numSalonesActionPerformed
+
+    
+    private void btnAgrega1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgrega1ActionPerformed
+        if(!listaRestHor.isVisible()){
+            listaRestHor.setVisible(true);
+            btnEliminaTodas1.setEnabled(true);
+        }
+        String rest = materias1.getSelectedItem().toString() + " >= "+numSal.getText();
+        if(!restH.contains(rest)){
+            restH.addElement(rest);
+        }
+        listaRestHor.setModel(restH);
+    }//GEN-LAST:event_btnAgrega1ActionPerformed
+
+    private void listaRestHorValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaRestHorValueChanged
+        btnElimina1.setEnabled(true);
+    }//GEN-LAST:event_listaRestHorValueChanged
+
+    private void btnElimina1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimina1ActionPerformed
+        restH.remove(listaRestHor.getSelectedIndex());
+        btnElimina1.setEnabled(false);
+        if(restH.isEmpty()){
+            listaRestHor.setVisible(false);
+        }
+    }//GEN-LAST:event_btnElimina1ActionPerformed
+
+    private void btnEliminaTodas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaTodas1ActionPerformed
+        restH.clear();
+        listaRestHor.setVisible(false);
+        btnEliminaTodas1.setEnabled(false);
+    }//GEN-LAST:event_btnEliminaTodas1ActionPerformed
+
+    private void btnAgrega2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgrega2ActionPerformed
+        if(!listaRestProf.isVisible()){
+            listaRestProf.setVisible(true);
+            btnEliminaT2.setEnabled(true);
+        }
+        String rest = materias2.getSelectedItem().toString() + " - "+materias3.getSelectedItem().toString();
+        if(!restP.contains(rest)){
+            restP.addElement(rest);
+        }
+        listaRestProf.setModel(restP);
+        insertaRel(materias2.getSelectedIndex(), materias3.getSelectedIndex());
+    }//GEN-LAST:event_btnAgrega2ActionPerformed
+
+    
     public void añadeClick(){
         restricc.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 JToggleButton tBtn = (JToggleButton)e.getSource();
                 if (tBtn.isSelected()) {
-                   System.out.println("button selected");
+                   //System.out.println("button selected");
                 } else {
-                   System.out.println("button not selected");
+                   //System.out.println("button not selected");
                 }
              }
         });
     }
+    
+    public void ocultaCosas(){
+        listaRestHor.setVisible(false);
+        listaRestProf.setVisible(false);
+        btnElimina1.setEnabled(false);
+        btnElimina2.setEnabled(false);
+        btnEliminaTodas1.setEnabled(false);
+        btnEliminaT2.setEnabled(false);
+    }
+    
+    public void agregaMatCombos(){
+        for(int i = 0; i < listaM.getSize(); i++){
+            materias1.addItem(listaM.getElementAt(i).toString());
+            materias2.addItem(listaM.getElementAt(i).toString());
+            materias3.addItem(listaM.getElementAt(i).toString());
+        }
+    }
+    
+    public void insertaRel(int a, int b){
+        int sig = a;
+        int nuevo = b;
+        if(sig != nuevo){
+            if(matAdy [sig][nuevo] == 0){
+                matAdy [sig][sig]++;
+                matAdy [nuevo][nuevo]++;
+            }
+            matAdy [sig][nuevo] = 1;
+            matAdy [nuevo][sig] = 1;
+        }
+        imprimeMatRels();
+        System.out.println();
+    }
+    
+    public void imprimeMatRels(){
+        for(int i = 0; i < listaM.size(); i++){
+            for(int j = 0; j < listaM.size(); j++){
+                System.out.print(matAdy[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -253,7 +442,7 @@ public class Restricciones extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Restricciones().setVisible(true);
+               // new Restricciones().setVisible(true);
             }
         });
     }
@@ -261,10 +450,13 @@ public class Restricciones extends javax.swing.JFrame {
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgrega1;
+    private javax.swing.JButton btnAgrega2;
     private javax.swing.JButton btnElimina1;
     private javax.swing.JButton btnElimina2;
     private javax.swing.JButton btnEliminaT2;
     private javax.swing.JButton btnEliminaTodas1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -277,9 +469,10 @@ public class Restricciones extends javax.swing.JFrame {
     private javax.swing.JList<String> listaRestProf;
     private javax.swing.JComboBox<String> materias1;
     private javax.swing.JComboBox<String> materias2;
-    private javax.swing.JComboBox<String> msterias3;
+    private javax.swing.JComboBox<String> materias3;
     private javax.swing.JTextField numSal;
     private javax.swing.JTextField numSalones;
     private javax.swing.JToggleButton restricc;
+    private javax.swing.JToggleButton restricc2;
     // End of variables declaration//GEN-END:variables
 }

@@ -340,7 +340,9 @@ public class MenuRels extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuitaRelActionPerformed
 
     private void btnContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContActionPerformed
-        // TODO add your handling code here:
+        Restricciones r = new Restricciones(listaM, matAdy, listaRel);
+        r.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnContActionPerformed
 
     /**
