@@ -296,6 +296,7 @@ public class MenuRels extends javax.swing.JFrame {
             }
         }
     }
+
     private void btnAgregaRelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaRelActionPerformed
         String rel = "";
         int tam = listaAct.size();

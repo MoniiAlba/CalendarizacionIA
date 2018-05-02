@@ -24,6 +24,7 @@ public class Restricciones extends javax.swing.JFrame {
     public DefaultListModel restH = new DefaultListModel();
     public DefaultListModel restP = new DefaultListModel();
     public int [][] matAdy;
+    public int [] restricciones;
     /**
      * Creates new form Restricciones
      */
@@ -36,6 +37,7 @@ public class Restricciones extends javax.swing.JFrame {
         ocultaCosas();
         matAdy = m;
         listaRel = lRel;
+        restricciones = new int [lmat.getSize()];
     }
 
     /**
@@ -68,7 +70,7 @@ public class Restricciones extends javax.swing.JFrame {
         btnElimina2 = new javax.swing.JButton();
         btnEliminaT2 = new javax.swing.JButton();
         restricc2 = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        btnCalc = new javax.swing.JButton();
         btnAgrega1 = new javax.swing.JButton();
         btnAgrega2 = new javax.swing.JButton();
 
@@ -103,6 +105,11 @@ public class Restricciones extends javax.swing.JFrame {
 
         jLabel5.setText("Mismo profesor");
 
+        listaRestProf.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaRestProfValueChanged(evt);
+            }
+        });
         jScrollPane3.setViewportView(listaRestProf);
 
         jLabel6.setText("con");
@@ -129,8 +136,18 @@ public class Restricciones extends javax.swing.JFrame {
         });
 
         btnElimina2.setText("Elimina");
+        btnElimina2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnElimina2ActionPerformed(evt);
+            }
+        });
 
         btnEliminaT2.setText("Elimina todas");
+        btnEliminaT2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminaT2ActionPerformed(evt);
+            }
+        });
 
         restricc2.setText("Con restricciones");
         restricc2.addActionListener(new java.awt.event.ActionListener() {
@@ -139,7 +156,12 @@ public class Restricciones extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Calcular");
+        btnCalc.setText("Calcular");
+        btnCalc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcActionPerformed(evt);
+            }
+        });
 
         btnAgrega1.setText("Agregar");
         btnAgrega1.addActionListener(new java.awt.event.ActionListener() {
@@ -201,7 +223,7 @@ public class Restricciones extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(91, 91, 91)
-                                .addComponent(jButton1)
+                                .addComponent(btnCalc)
                                 .addGap(53, 53, 53))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -267,7 +289,7 @@ public class Restricciones extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnEliminaT2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnCalc)
                         .addGap(16, 16, 16))))
         );
 
@@ -282,12 +304,14 @@ public class Restricciones extends javax.swing.JFrame {
             numSal.setEnabled(false);
             listaRestHor.setVisible(false);
             btnElimina1.setEnabled(false);
+            btnAgrega1.setEnabled(false);
             btnEliminaTodas1.setEnabled(false);
         }else{
             restricc.setText("Con restricciones");
             materias1.setEnabled(true);
             numSal.setEnabled(true);
             listaRestHor.setVisible(true);
+            btnAgrega1.setEnabled(true);
             btnEliminaTodas1.setEnabled(true);
         }
     }//GEN-LAST:event_restriccActionPerformed
@@ -299,11 +323,13 @@ public class Restricciones extends javax.swing.JFrame {
             materias3.setEnabled(false);
             listaRestProf.setVisible(false);
             btnElimina2.setEnabled(false);
+            btnAgrega2.setEnabled(false);
             btnEliminaT2.setEnabled(false);
         }else{
             restricc2.setText("Con restricciones");
             materias2.setEnabled(true);
             materias3.setEnabled(true);
+            btnAgrega2.setEnabled(true);
             listaRestProf.setVisible(true);
             btnEliminaT2.setEnabled(true);
         }
@@ -320,6 +346,7 @@ public class Restricciones extends javax.swing.JFrame {
             btnEliminaTodas1.setEnabled(true);
         }
         String rest = materias1.getSelectedItem().toString() + " >= "+numSal.getText();
+        restricciones[materias1.getSelectedIndex()] = parseInt(numSal.getText())-1;
         if(!restH.contains(rest)){
             restH.addElement(rest);
         }
@@ -356,6 +383,42 @@ public class Restricciones extends javax.swing.JFrame {
         listaRestProf.setModel(restP);
         insertaRel(materias2.getSelectedIndex(), materias3.getSelectedIndex());
     }//GEN-LAST:event_btnAgrega2ActionPerformed
+
+    private void listaRestProfValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaRestProfValueChanged
+        btnElimina2.setEnabled(true);
+    }//GEN-LAST:event_listaRestProfValueChanged
+
+    private void btnElimina2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimina2ActionPerformed
+        String eliminat = listaRestProf.getSelectedValue().toString();
+        int a = listaM.indexOf(eliminat.charAt(0));
+        int b = listaM.indexOf(eliminat.charAt(eliminat.length()));
+        restP.remove(listaRestProf.getSelectedIndex());
+        btnElimina2.setEnabled(false);
+        if(restP.isEmpty()){
+            listaRestProf.setVisible(false);
+        }
+        quitaRel(a, b);
+    }//GEN-LAST:event_btnElimina2ActionPerformed
+
+    private void btnEliminaT2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminaT2ActionPerformed
+        for(int i = 0; i < restP.getSize();i++){
+            String eliminat = restP.elementAt(i).toString();
+            int a = listaM.indexOf(eliminat.charAt(0));
+            int b = listaM.indexOf(eliminat.charAt(eliminat.length()));
+            quitaRel(a, b);
+        }
+        restP.clear();
+        listaRestProf.setVisible(false);
+        btnEliminaT2.setEnabled(false);
+        
+    }//GEN-LAST:event_btnEliminaT2ActionPerformed
+
+    private void btnCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcActionPerformed
+        
+        ResolucionEnum sol = new ResolucionEnum(matAdy, numS, restricciones);
+        sol.resuelve();
+        sol.imprimeArr(sol.asignados);
+    }//GEN-LAST:event_btnCalcActionPerformed
 
     
     public void añadeClick(){
@@ -398,6 +461,21 @@ public class Restricciones extends javax.swing.JFrame {
             }
             matAdy [sig][nuevo] = 1;
             matAdy [nuevo][sig] = 1;
+        }
+        imprimeMatRels();
+        System.out.println();
+    }
+    
+    public void quitaRel(int a, int b){
+        int sig = a;
+        int nuevo = b;
+        if(sig != nuevo){
+            if(matAdy [sig][nuevo] != 0){
+                matAdy [sig][sig]--;
+                matAdy [nuevo][nuevo]--;
+            }
+            matAdy [sig][nuevo] = 0;
+            matAdy [nuevo][sig] = 0;
         }
         imprimeMatRels();
         System.out.println();
@@ -452,11 +530,11 @@ public class Restricciones extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgrega1;
     private javax.swing.JButton btnAgrega2;
+    private javax.swing.JButton btnCalc;
     private javax.swing.JButton btnElimina1;
     private javax.swing.JButton btnElimina2;
     private javax.swing.JButton btnEliminaT2;
     private javax.swing.JButton btnEliminaTodas1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
