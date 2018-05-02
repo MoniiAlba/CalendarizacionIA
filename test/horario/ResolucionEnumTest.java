@@ -101,7 +101,14 @@ public class ResolucionEnumTest {
         //renum.imprimeMatriz(renum.matP);
         assertTrue("Quita hermanos de 3", renum.matAdy[2][3]==0);
     }
-    
+    public boolean verificaSol(ResolucionEnum ren, int[] sol){
+        boolean res = true;
+        
+        for(int i = 0; i < sol.length ; i ++ )
+            res = res && (ren.asignados[i] == sol[i]);
+        
+        return res;
+    }
     @Test
     public void resuelvePrueba(){
         int[][] mat = {{2, 1, 1, 0},
@@ -109,10 +116,12 @@ public class ResolucionEnumTest {
                        {1, 0, 2, 1},
                        {0, 0, 1, 1}};
         int numSalones = 2;
+        int[] sol = {0, 1, 1, 0};
         
         renum = new ResolucionEnum(mat, numSalones);
         renum.resuelve();
-        renum.imprimeArr(renum.asignados);
+        //renum.imprimeArr(renum.asignados);
+        assertTrue("Resuelve caso prueba", verificaSol(renum, sol));
     }
     
 }

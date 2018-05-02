@@ -102,7 +102,10 @@ public class ResolucionEnum {
         int tam = matAdy.length, idNodo, color;
         for(int i = 0; i < tam ; i++){
             idNodo = getSigNodo();
+            matAdy[idNodo][idNodo] = -1;
+            //System.out.print("Nodo actual: "+idNodo+" ");
             color = asignaColor(idNodo);
+            //System.out.println("Color asignado: "+color);
             prohibeHermanosGrado(idNodo, color);
         }
     }
