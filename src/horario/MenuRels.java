@@ -61,7 +61,6 @@ public class MenuRels extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jRelaciones = new javax.swing.JList<>();
-        btnQuitaRel = new javax.swing.JButton();
         btnQuitaTodas = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -116,14 +115,6 @@ public class MenuRels extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(jRelaciones);
 
-        btnQuitaRel.setText("Quitar Relación");
-        btnQuitaRel.setEnabled(false);
-        btnQuitaRel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuitaRelActionPerformed(evt);
-            }
-        });
-
         btnQuitaTodas.setText("Quitar todas");
         btnQuitaTodas.setEnabled(false);
         btnQuitaTodas.addActionListener(new java.awt.event.ActionListener() {
@@ -164,9 +155,7 @@ public class MenuRels extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(28, 28, 28)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(btnQuitaRel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnQuitaTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnQuitaTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel2)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,15 +201,15 @@ public class MenuRels extends javax.swing.JFrame {
                         .addComponent(btnAgregaRel)))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnQuitaRel)
-                        .addGap(31, 31, 31)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(btnCont))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
                         .addComponent(btnQuitaTodas)))
-                .addGap(4, 4, 4)
-                .addComponent(btnCont)
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -297,6 +286,15 @@ public class MenuRels extends javax.swing.JFrame {
         }
     }
 
+    
+    public void quitaRelsTodas(){
+        for(int i = 0; i < matAdy.length;i++){
+            for(int j = 0; j < matAdy.length; j++){
+                matAdy[i][j] = 0;
+            }
+        }
+    }
+
     private void btnAgregaRelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregaRelActionPerformed
         String rel = "";
         int tam = listaAct.size();
@@ -328,17 +326,10 @@ public class MenuRels extends javax.swing.JFrame {
     private void btnQuitaTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitaTodasActionPerformed
         listaAct.clear();
         listaRel.clear();
+        quitaRelsTodas();
         jRelaciones.setVisible(false);
         btnQuitaTodas.setEnabled(false);
     }//GEN-LAST:event_btnQuitaTodasActionPerformed
-
-    private void btnQuitaRelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitaRelActionPerformed
-        listaRel.remove(jRelaciones.getSelectedIndex());
-        btnQuitaRel.setEnabled(false);
-        if(listaRel.isEmpty()){
-            jRelaciones.setVisible(false);
-        }
-    }//GEN-LAST:event_btnQuitaRelActionPerformed
 
     private void btnContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContActionPerformed
         Restricciones r = new Restricciones(listaM, matAdy, listaRel);
@@ -386,7 +377,6 @@ public class MenuRels extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregaRel;
     private javax.swing.JButton btnCont;
     private javax.swing.JButton btnQuitaM;
-    private javax.swing.JButton btnQuitaRel;
     private javax.swing.JButton btnQuitaTodas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

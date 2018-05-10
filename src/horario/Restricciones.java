@@ -418,6 +418,8 @@ public class Restricciones extends javax.swing.JFrame {
         ResolucionEnum sol = new ResolucionEnum(matAdy, numS, restricciones);
         sol.resuelve();
         sol.imprimeArr(sol.asignados);
+        Horario h = new Horario(sol.asignados, listaM);
+        h.setVisible(true);
     }//GEN-LAST:event_btnCalcActionPerformed
 
     
